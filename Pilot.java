@@ -11,6 +11,7 @@ public class Pilot {
     public int hunger;
     public int energy;
     public String name;
+    boolean pilotDead;
     
     public Pilot(String pilotName) {
         name = pilotName;
@@ -46,5 +47,10 @@ public class Pilot {
     public void adjustHunger(int hungerLevel) {
         hunger = hungerLevel;
     }
+    
+    public boolean isPilotDead(){
+        return pilotDead;
+    }
+    
     
 }

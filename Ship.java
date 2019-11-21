@@ -15,6 +15,7 @@ public class Ship {
     public int batteries;
     public int damage;
     public String name;
+    boolean isShipDestroyed;
 
     public Ship(String shipName) {
         this.name = shipName;

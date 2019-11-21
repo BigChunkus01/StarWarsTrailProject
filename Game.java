@@ -9,46 +9,31 @@ import java.util.Scanner;
  *
  * @author charlesurban
  */
-public class Game {
-
-    Ship ship = new Ship("Millenium Falcon");
-    Pilot pilot = new Pilot("Han Solo");
-    double difficulty;
-    int distanceTravelled, pursuerDistance, distanceFromPursuerAndRider, currentDay;
-    String timeOfDay, weather, location, pursuerDistanceDescription;
+public class Game{
+    
     Random random = new Random();
-    boolean shipCanTravel;    
-    boolean pilotIsDead;
-    int shipDamage, shipFuel, shipBatteries;
-    int pilotEnergy, pilotHunger, pilotThirst;
-    int timeOfDayCounter;
-        
-    public Game(int difficulty, Ship ship, Pilot pilot) {
-        this.difficulty = difficulty;
-        this.ship = ship;
-        this.pilot = pilot;
-    }
     
     public void start() {
-        
-    }
-    
-    private boolean checkShipCanTravel() {
-        shipCanTravel = !(this.shipDamage == 100 || this.shipFuel == 0 || this.shipBatteries == 0);
-        return shipCanTravel;
-    }
-    
-    private boolean checkPilotIsDead() {
-        if (this.pilotEnergy == 0 || this.pilotHunger == 0 || this.pilotThirst == 0) {
-            pilotIsDead = true;
+        GameSetup.setupGame();
+        if (isPilotDead = false) {
+            Game.processTurn();
         }
         else {
-            pilotIsDead = false;
+            System.out.println("You moved to slowly, the Galactic Empire caught you.");
         }
+    }
+    
+    public boolean checkShipCanTravel() {
+
+    }
+    
+    public boolean checkPilotIsDead() {
+        pilotIsDead = Pilot.isPilotDead();
         return pilotIsDead;
     }
     
     private String getNewLocation() {
+        String location;
         int locationPicker = random.nextInt(15);
         if (locationPicker == 0 || locationPicker == 1) {
             location = "Hutt Space";
@@ -73,40 +58,34 @@ public class Game {
     }
     
     private String getNewWeather() {
+        String weather;
         int weatherPicker = random.nextInt(10);
-        if (weatherPicker == 0) {
-            weather = "Solar Winds";
-        }
-        if (weatherPicker == 1 || weatherPicker == 8) {
-            weather = "Astroids!";
-        }
-        if (weatherPicker == 2 || weatherPicker == 3 || weatherPicker == 4 || weatherPicker == 5) {
-            weather = "Clear Space All Around You";
-        }
-        if (weatherPicker == 6 || weatherPicker == 7) {
-            weather = "";
+        switch (weatherPicker) {
+            case 0:
+                weather = "Solar Winds";
+                break;
+            case 1, 8:
+                weather = "Astroids!";
+                break;
+            case 2, 3, 4, 5:
+                weather = "Clear Space All Around You";
+                break;
+            default:
+                weather = "A huge cluster of ships are around you";
+                break;
         }
         return weather;
     }
     
     private String getNewTimeOfDay() {
-        for (int i = 0; i < 5; i++) {
-            timeOfDayCounter++;
-            if (i>=5) {
-                i=0;
-            }
-        }
-
-        
-        return timeOfDay;
+        return null;
     }
     
     private String getPursuerDistanceDescription() {
-        pursuerDistanceDescription = "The Galactic Empire is " + Integer.toString(pursuerDistance) + " miles behind you.";
-        return pursuerDistanceDescription;
+        return null;
     }
     
-    public void processTurn() {
+    private static void processTurn() {
         System.out.println("What would you like to do next?");
         System.out.println("1. Rest");
         System.out.println("2. Stop and Search for Food");
@@ -157,7 +136,12 @@ public class Game {
     }
     
     private static void processWaterSearch() {
-        
+        System.out.println("You landed on the closest planet, hopefully there is some food here.");
+        Random food = new Random();
+        int randWater = food.nextInt(30);
+        System.out.println("You found " + randWater + " cups of water.");
+        pilotThirst += randWater;
+        System.out.println("Your thirst level is now at " + pilotThirst + ".");
     }
     
     private static void processTravelCarefully() {
