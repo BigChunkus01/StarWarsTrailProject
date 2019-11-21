@@ -14,55 +14,15 @@ import java.util.Scanner;
  *
  * @author charlesurban
  */
-public class GameSetup extends Game {
-    
-    private GameSetup() {
-    } 
-    
-    public static Game setupGame() {
-    //Initialize Game
-        System.out.println("Quick! The galaxy needs your help. Luke Skywalker is missing and you must find him! If he is not found soon, the galatic empire will take over the entire galaxy.");        
-        System.out.println("Please Select A Difficulty.");
-        System.out.println("1. Easy");
-        System.out.println("2. Normal");
-        System.out.println("3. Hard");
-        Scanner d = new Scanner(System.in);
-        double difficulty = d.nextInt();
-        
-    //Ship Selection
-        System.out.println("Please Select A Type Of Ship.");
-        System.out.println("1. Default Ship");
-        System.out.println("2. Random Ship");
-        System.out.println("3. Fully Custom Ship");
-        Scanner s = new Scanner(System.in);
-        if (s.nextInt() == 1 || s.nextInt() == 2 || s.nextInt() == 3) {
-                GameSetup.setupShip(s.nextInt());
-        }
-        else {
-            System.out.println("Please select a valid ship type.");
-        }
-        
-    //Pilot Selection
-        System.out.println("Please Select A Type Of Pilot.");
-        System.out.println("1. Default Pilot");
-        System.out.println("2. Random Pilot");
-        System.out.println("3. Fully Custom Pilot");
-        Scanner p = new Scanner(System.in);
-        if (p.nextInt() == 1 || p.nextInt() == 2 || p.nextInt() == 3) {
-                GameSetup.setupPilot(s.nextInt());
-        }
-        else {
-            System.out.println("Please select a valid pilot type.");
-        }
-        
-        return null;        
-    }
+public class GameSetup{
     
     //Ship Setup
     public static Ship setupShip(int option) {
+        Ship shipConstructor = new Ship();
         switch (option) {
             case 1: //Default Ship
                 Ship defaultShip = new Ship("Millenium Falcon");
+                shipConstructor = defaultShip;
                 break;
             case 2: //Random Ship
                 Random name = new Random();
@@ -91,6 +51,7 @@ public class GameSetup extends Game {
                 int randomDamage = damage.nextInt(96);
                 //Random Ship Constructed
                 Ship randomShip = new Ship(randomName, randomFuel, randomBatteries, randomDamage);
+                shipConstructor = randomShip;
                 break;
 
 
@@ -108,16 +69,20 @@ public class GameSetup extends Game {
                 Scanner sDamage = new Scanner(System.in);
                 int customDamage = sDamage.nextInt();
                 Ship customShip = new Ship(customName, customFuel, customBatteries, customDamage);
+                shipConstructor = customShip;
                 break;
         }
-        return null;
+        
+        return shipConstructor;
     }
     
     //Pilot Setup
     public static Pilot setupPilot(int option) {
+        Pilot pilotConstructor = new Pilot();
         switch (option) {
             case 1: //Default Pilot
                 Pilot defaultPilot = new Pilot("Han Solo");
+                pilotConstructor = defaultPilot;
                 break;
             case 2: //Random Ship
                 Random name = new Random();
@@ -146,6 +111,7 @@ public class GameSetup extends Game {
                 int randomEnergy = energy.nextInt(100);
                 //Random Ship Constructed
                 Pilot randomPilot = new Pilot(randomName, randomHunger, randomThirst, randomEnergy);
+                pilotConstructor = randomPilot;
                 break;
 
            case 3: //Custom Ship
@@ -162,10 +128,51 @@ public class GameSetup extends Game {
                 Scanner sEnergy = new Scanner(System.in);
                 int customEnergy = sEnergy.nextInt();
                 Pilot customPilot = new Pilot(customName, customHunger, customThirst, customEnergy);
+                pilotConstructor = customPilot;
                 break;
         }
-       return null; 
+       return pilotConstructor; 
     }
-    
+
+    public static Game setupGame() {
+    //Initialize Game
+        System.out.println("Quick! The galaxy needs your help. Luke Skywalker is missing and you must find him! If he is not found soon, the galatic empire will take over the entire galaxy.");        
+        System.out.println("Please Select A Difficulty.");
+        System.out.println("1. Easy");
+        System.out.println("2. Normal");
+        System.out.println("3. Hard");
+        Scanner d = new Scanner(System.in);
+        int difficulty = d.nextInt();
+        
+    //Ship Selection
+        System.out.println("Please Select A Type Of Ship.");
+        System.out.println("1. Default Ship");
+        System.out.println("2. Random Ship");
+        System.out.println("3. Fully Custom Ship");
+        Scanner s = new Scanner(System.in);
+        if (s.nextInt() == 1 || s.nextInt() == 2 || s.nextInt() == 3) {
+                GameSetup.setupShip(s.nextInt());
+        }
+        else {
+            System.out.println("Please select a valid ship type.");
+        }
+        
+    //Pilot Selection
+        System.out.println("Please Select A Type Of Pilot.");
+        System.out.println("1. Default Pilot");
+        System.out.println("2. Random Pilot");
+        System.out.println("3. Fully Custom Pilot");
+        Scanner p = new Scanner(System.in);
+        if (p.nextInt() == 1 || p.nextInt() == 2 || p.nextInt() == 3) {
+                GameSetup.setupPilot(s.nextInt());
+        }
+        else {
+            System.out.println("Please select a valid pilot type.");
+        }
+        
+        Game newGame = new Game(difficulty, shipConstructor, pilotConstructor);
+        
+        return null;        
+    }
     
 }

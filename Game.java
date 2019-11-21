@@ -9,9 +9,13 @@ import java.util.Scanner;
  *
  * @author charlesurban
  */
-public class Game{
+public class Game extends GameSetup{
     
     Random random = new Random();
+    
+    public Game(int difficulty, Ship ship, Pilot pilot) {
+        
+    }
     
     public void start() {
         GameSetup.setupGame();
@@ -59,12 +63,12 @@ public class Game{
     
     private String getNewWeather() {
         String weather;
-        int weatherPicker = random.nextInt(10);
+        int weatherPicker = random.nextInt(8);
         switch (weatherPicker) {
             case 0:
                 weather = "Solar Winds";
                 break;
-            case 1, 8:
+            case 1:
                 weather = "Astroids!";
                 break;
             case 2, 3, 4, 5:
