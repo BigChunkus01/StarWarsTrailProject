@@ -9,12 +9,22 @@ package Game;
  *
  * @author charlesurban
  */
-public class Main{
+public class Main {
     
-    public void main(String [] args) {
-        
-        Game.start();
-        
-    }
+   public static void main(String args[]) {
+       
+       /*   Things I changed
+       
+       -    instead of calling start on the Game class, make an object and call it on that
+                it saves you a lot of headache with dealing with static classes and instance
+                variables for the Game objects, plus then you don't have to worry about game's
+                instance variables getting fucked up or being non-accessible
+       */
+       
+       Game game =  GameSetup.setupGame();
+       game.start();
+   }
+   
+   
     
 }

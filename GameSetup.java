@@ -16,13 +16,15 @@ import java.util.Scanner;
  */
 public class GameSetup{
     
+    private static Ship shipConstructor;
+    private static Pilot pilotConstructor;
+    public static int difficulty;
+        
     //Ship Setup
     public static Ship setupShip(int option) {
-        Ship shipConstructor = new Ship();
         switch (option) {
             case 1: //Default Ship
-                Ship defaultShip = new Ship("Millenium Falcon");
-                shipConstructor = defaultShip;
+                shipConstructor = new Ship("Millenium Falcon");
                 break;
             case 2: //Random Ship
                 Random name = new Random();
@@ -44,21 +46,20 @@ public class GameSetup{
                         break;
             }
                 //Random Fuel Level
-                int randomFuel = fuel.nextInt(100);
+                int randomFuel = fuel.nextInt(30)+70;
                 //Random Battery Level
-                int randomBatteries = batteries.nextInt(100);
+                int randomBatteries = batteries.nextInt(30)+70;
                 //Random Damage Level
-                int randomDamage = damage.nextInt(96);
+                int randomDamage = damage.nextInt(11);
                 //Random Ship Constructed
-                Ship randomShip = new Ship(randomName, randomFuel, randomBatteries, randomDamage);
-                shipConstructor = randomShip;
+                shipConstructor = new Ship(randomName, randomFuel, randomBatteries, randomDamage);
                 break;
 
 
            case 3: //Custom Ship
                 System.out.println("Please enter a name for your ship.");
                 Scanner sName = new Scanner(System.in);
-                String customName = sName.toString();
+                String customName = sName.next();
                 System.out.println("Please enter a fuel value for your ship. 100 being a full tank of fuel.");
                 Scanner sFuel = new Scanner(System.in);
                 int customFuel = sFuel.nextInt();
@@ -68,8 +69,7 @@ public class GameSetup{
                 System.out.println("Please enter a damage value for your ship. 0 being no damage to the ship.");
                 Scanner sDamage = new Scanner(System.in);
                 int customDamage = sDamage.nextInt();
-                Ship customShip = new Ship(customName, customFuel, customBatteries, customDamage);
-                shipConstructor = customShip;
+                shipConstructor = new Ship(customName, customFuel, customBatteries, customDamage);
                 break;
         }
         
@@ -78,7 +78,7 @@ public class GameSetup{
     
     //Pilot Setup
     public static Pilot setupPilot(int option) {
-        Pilot pilotConstructor = new Pilot();
+        Pilot pilotConstructor;
         switch (option) {
             case 1: //Default Pilot
                 Pilot defaultPilot = new Pilot("Han Solo");
@@ -117,7 +117,7 @@ public class GameSetup{
            case 3: //Custom Ship
                 System.out.println("Please enter a name for your ship.");
                 Scanner sName = new Scanner(System.in);
-                String customName = sName.toString();
+                String customName = sName.next();
                 System.out.println("Please enter a fuel value for your ship. 100 being a full tank of fuel.");
                 Scanner sHunger = new Scanner(System.in);
                 int customHunger = sHunger.nextInt();
@@ -130,10 +130,12 @@ public class GameSetup{
                 Pilot customPilot = new Pilot(customName, customHunger, customThirst, customEnergy);
                 pilotConstructor = customPilot;
                 break;
+           default: //bad case, set this up later
+               pilotConstructor = new Pilot("Han Solo");
         }
        return pilotConstructor; 
     }
-
+    
     public static Game setupGame() {
     //Initialize Game
         System.out.println("Quick! The galaxy needs your help. Luke Skywalker is missing and you must find him! If he is not found soon, the galatic empire will take over the entire galaxy.");        
@@ -142,7 +144,12 @@ public class GameSetup{
         System.out.println("2. Normal");
         System.out.println("3. Hard");
         Scanner d = new Scanner(System.in);
-        int difficulty = d.nextInt();
+        if (d.hasNextInt()) {
+           difficulty = d.nextInt();
+        }
+        else {
+            System.out.println("Please Select A Difficulty.");
+        }
         
     //Ship Selection
         System.out.println("Please Select A Type Of Ship.");
@@ -150,12 +157,21 @@ public class GameSetup{
         System.out.println("2. Random Ship");
         System.out.println("3. Fully Custom Ship");
         Scanner s = new Scanner(System.in);
-        if (s.nextInt() == 1 || s.nextInt() == 2 || s.nextInt() == 3) {
-                GameSetup.setupShip(s.nextInt());
-        }
-        else {
-            System.out.println("Please select a valid ship type.");
-        }
+            switch (s.nextInt()) {
+                case 1:
+                    setupShip(s.nextInt());
+                    break;
+                case 2:
+                    setupShip(s.nextInt());
+                    break;
+                case 3:
+                    setupShip(s.nextInt());
+                    break;
+                default:
+                    System.out.println("Please pick a number 1-3.");
+                    break;
+            }
+
         
     //Pilot Selection
         System.out.println("Please Select A Type Of Pilot.");
@@ -163,16 +179,22 @@ public class GameSetup{
         System.out.println("2. Random Pilot");
         System.out.println("3. Fully Custom Pilot");
         Scanner p = new Scanner(System.in);
-        if (p.nextInt() == 1 || p.nextInt() == 2 || p.nextInt() == 3) {
-                GameSetup.setupPilot(s.nextInt());
-        }
-        else {
-            System.out.println("Please select a valid pilot type.");
-        }
+            switch (p.nextInt()) {
+                case 1:
+                    setupPilot(p.nextInt());
+                    break;
+                case 2:
+                    setupPilot(p.nextInt());
+                    break;
+                case 3:
+                    setupPilot(p.nextInt());
+                    break;
+                default:
+                    System.out.println("Please pick a number 1-3.");
+                    break;
+            }
+        Game newGame = new Game(difficulty, shipConstructor, pilotConstructor);  
+        return newGame;
         
-        Game newGame = new Game(difficulty, shipConstructor, pilotConstructor);
-        
-        return null;        
     }
-    
 }
